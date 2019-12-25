@@ -1,0 +1,27 @@
+## Interface: 11302
+## X-Min-Interface: 11302
+## Title:|cffffd200FistedDKP|r
+## Title-zhCN:|cffffd200FistedDKP|r
+## Title-ruRU:|cffffd200FistedDKP|r
+## Title-itIT:|cffffd200FistedDKP|r
+## Title-zhTW:|cffffd200FistedDKP|r
+## Title-koKR:|cffffd200FistedDKP|r
+## Title-esES:|cffffd200FistedDKP|r
+## Title-esMX:|cffffd200FistedDKP|r
+## Title-frFR:|cffffd200FistedDKP|r
+## Notes: A Custom DKP system
+## Dependencies: 
+## OptionalDependencies: 
+## SavedVariables: FistedDKP_DB
+## DefaultState: enabled
+## Author: Anaximander
+## X-Website: http://www.github.com/dansheps/fisteddkp/
+## X-Curse-Project-ID: 
+## X-WoWI-ID: 
+## Version: 0.0.1
+
+localization\core.lua
+localization\en-us.lua
+localization\it-it.lua
+
+FistedDKP.lua
