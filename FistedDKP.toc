@@ -18,7 +18,7 @@
 ## X-Website: http://www.github.com/dansheps/fisteddkp/
 ## X-Curse-Project-ID: 
 ## X-WoWI-ID: 
-## Version: 0.0.1
+## Version: 1.0.0
 
 localization\core.lua
 localization\en-us.lua
