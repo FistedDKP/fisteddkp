@@ -1,0 +1,21 @@
+FistedDKP_DB = {
+    Team = {
+        {
+            Type = Guild,
+            Whitelist = {},
+            Members = {},
+            Tier = {
+                MC = {
+                    Encounters = {},
+                    Raids = {
+                        2019-12-24.1300 = {
+                            DKP = {}
+                            Loot = {}
+                        }
+                    }
+                }
+            }
+        }
+    }
+    Players = {}
+}
