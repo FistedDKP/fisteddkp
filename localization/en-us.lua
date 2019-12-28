@@ -3,7 +3,7 @@
 local language = {
     GUI = {
         TITLE = "FistedDKP",
-    }
+    },
     Raids = {
         Encounters = {
             MC = "Molten Core",
