@@ -30,7 +30,8 @@ end
         print(value)
     end
 
-    if command == "test" then
-        FistedDKP_Communications:TestComms()
+    if command == "version" then
+        print(fisted.player)
+        FistedDKP_Communication:SendVersionQuery()
     end
  end
