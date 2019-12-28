@@ -14,6 +14,8 @@
 
 embeds.xml
 
+FistedDKP.lua
+
 localization\core.lua
 localization\en-us.lua
 localization\it-it.lua
@@ -21,4 +23,4 @@ localization\it-it.lua
 modules\Communication.lua
 modules\Console.lua
 
-FistedDKP.lua
+FistedDKP_Core.lua

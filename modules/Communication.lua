@@ -41,7 +41,7 @@ local commsProto = {
     }
 }
 
-FistedDKP_Communication = LibStub("AceAddon-3.0"):NewAddon("FistedDKP_Communication", "AceComm-3.0")
+FistedDKP_Communication = FistedDKP:NewModule("FistedDKP_Communication", "AceComm-3.0")
 
 function FistedDKP_Communication:CommEnable()
     self:RegisterComm(commPrefix.."Ver", "Dispatch")

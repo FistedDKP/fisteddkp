@@ -1,0 +1,3 @@
+local _, fisted = ...
+
+FistedDKP_Systems_ZeroSum = FistedDKP:NewModule("FistedDKP_Systems_ZeroSum", "AceConsole-3.0")

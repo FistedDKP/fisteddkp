@@ -1,0 +1,3 @@
+local _, fisted = ...
+
+FistedDKP_Systems_Bid = FistedDKP:NewModule("FistedDKP_Systems_Bid", "AceConsole-3.0")

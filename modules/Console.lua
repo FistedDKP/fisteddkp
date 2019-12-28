@@ -1,6 +1,6 @@
 local _, fisted = ...
 
-FistedDKP_Console = LibStub("AceAddon-3.0"):NewAddon("FistedDKP_Console", "AceConsole-3.0")
+FistedDKP_Console = FistedDKP:NewModule("FistedDKP_Console", "AceConsole-3.0")
 
 function FistedDKP_Console:OnEnable()
     self:RegisterChatCommand("fdkp","HandleSlashCommands")
