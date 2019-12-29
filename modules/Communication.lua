@@ -117,33 +117,6 @@ function FistedDKP_Communication:CommEnable()
     end
 end
 
-function FistedDKP_Communication:Dispatch(prefix,message,distribution,sender)
-    if sender == fisted.player then
-        return
-    end
-
-    if prefix==commPrefix.."Ver" then
-        command = string.sub(message,0,4)
-        if command == commsProto.Ver.Query then
-            self:SendVersionQueryResponse(sender)
-        elseif command == commsProto.Ver.Respond then
-            self:ParseVersionQueryResponse(sender,string.sub(message,5))
-        end
-    elseif prefix==commPrefix.."Loot" then
-    elseif prefix==commPrefix.."DKP" then
-    elseif prefix==commPrefix.."Team" then
-    else
-        print("Fatal Error")
-    end
-end
-
-function FistedDKP_Communication:ValidateMessage(distribution,sender)
-    if sender == fisted.player then
-        print('Failed Validation')
-        return false
-    end
-end
-
 
 function FistedDKP_Communication:SendVersionQuery()
     print("Sending Query")
@@ -151,17 +124,11 @@ function FistedDKP_Communication:SendVersionQuery()
 end
 
 function FistedDKP_Communication:Ver_Query(prefix,message,distribution,sender)
-    --if self:ValidateMessage(distribution,sender) == false then
-    --    return
-    --end
     print("Sending Response: " .. sender)
     self:SendCommMessage(commPrefix .. commsProto.Ver.Respond.Prefix,fisted.version,"WHISPER",sender)
 end
 
 function FistedDKP_Communication:Ver_Respond(prefix,message,distribution,sender)
-    --if self:ValidateMessage(distribution,sender) == false then
-    --    return
-    --end
     print(sender..": "..message)
 end
 
