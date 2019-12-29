@@ -54,6 +54,8 @@ FistedDKP_DB = {
                                         eeaef11b,
 
                                     }
+                                    relatedloot = 2aa3ee12
+                                    relateddkp = nil
                                 }
                             }
                             Loot = {
