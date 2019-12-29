@@ -1,5 +1,3 @@
-local _, fisted = ...;
-local _G = _G;
-local _L = fisted.L;
+local _, fisted = ...
 
-fisted.rbac = FistedDKP:NewModule("FistedRBAC")
+FistedDKP_RBAC = FistedDKP:NewModule("FistedDKP_RBAC")
