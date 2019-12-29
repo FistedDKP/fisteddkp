@@ -9,6 +9,8 @@ FistedDKP_DB = {
                     Encounters = {},
                     Raids = {
                         2019-12-24.1300 = {
+                            Start = 2019-12-24.1300
+                            End = 2019-12-24.1600
                             DKP = {}
                             Loot = {}
                         }

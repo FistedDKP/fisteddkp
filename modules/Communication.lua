@@ -104,6 +104,37 @@ local commsProto = {
             Prefix = '60FF',
             Receiver = 'Loot_BroadcastReceived'
         },
+    },
+    Raid = {
+        RaidStartSend = {
+            Prefix = '8001'
+        },
+        RaidStartReceived = {
+            Prefix = '8002'
+        },
+        RaidEndSend = {
+            Prefix = '8011'
+        },
+        RaidEndReceived = {
+            Prefix = '8012'
+        },
+    },
+    Bid = {
+        SendBid = {
+            Prefix = 'A001'
+        },
+        ReceiveBid = {
+            Prefix = 'A002'
+        },
+        CancelBid = {
+            Prefix = 'A011'
+        },
+        ReceiveCancel = {
+            Prefix = 'A012'
+        },
+        BroadcastBid = {
+            Prefix = 'A0FF'
+        },
     }
 }
 
@@ -112,7 +143,9 @@ FistedDKP_Communication = FistedDKP:NewModule("FistedDKP_Communication", "AceCom
 function FistedDKP_Communication:CommEnable()
     for k,v in pairs(commsProto) do
         for ik,iv in pairs(v) do
-            self:RegisterComm(commPrefix .. iv.Prefix, iv.Receiver)
+            if iv.Prefix != nil and iv.Receiver != nil then
+                self:RegisterComm(commPrefix .. iv.Prefix, iv.Receiver)
+            end
         end
     end
 end
