@@ -8,6 +8,12 @@ local LibDeflate = LibStub:GetLibrary("LibDeflate")
 local flags = {}
 local commPrefix = "FDKP-"
 
+--
+-- Packet Format:
+-- 
+-- { index = { Team = '', Tier = '', Raid = '', Encounter = '', Assigner = '', Member = '', DKP = '', Reason = '', datetime = '' } }
+-- { index = { Team = '', Tier = '', Raid = '', Loot = {} } }
+
 local commsProto = {
     Ver = {
         Query = {
@@ -151,7 +157,7 @@ function FistedDKP_Communication:CommEnable()
 end
 
 
-function FistedDKP_Communication:SendVersionQuery()
+function FistedDKP_Communication:SendVersionQuery(target = 'GUILD')
     print("Sending Query")
     self:SendCommMessage(commPrefix .. commsProto.Ver.Query.Prefix,"VERSION","GUILD")
 end

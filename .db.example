@@ -1,18 +1,69 @@
 FistedDKP_DB = {
     Team = {
-        {
-            Type = Guild,
-            Whitelist = {},
-            Members = {},
+        e3e3e3e3 = {
+            Name = Winners
+            Founder = toljar
+            Type = Guild
+            Whitelist = {}
+            DKP = {
+                Types = {
+                    cbcbcbde = 'On-Time Bonus',
+                    12353674 = 'Zero-Sum Distribution',
+                }
+            }
+            Members = {
+                eeaef11b = {
+                    Name = 'Anaximander'
+                    Level = 60
+                    Race = Troll
+                    Class = Priest
+                    Role = Heal
+                    Permission = Officer
+                }
+            },
             Tier = {
-                MC = {
-                    Encounters = {},
+                a6d7e8b1 = {
+                    Name = Molten Core
+                    Shortname = MC
+                    Zoneid = 12341
+                    Encounters = {
+                        ade3d3bc = {
+                            Name = Lucifron
+                            
+                        }
+                    },
                     Raids = {
-                        2019-12-24.1300 = {
+                        c34c1d3f = {
                             Start = 2019-12-24.1300
                             End = 2019-12-24.1600
                             DKP = {}
                             Loot = {}
+                        }
+                        bb32c4a1 = {
+                            Start = 2019-12-29.084900.000
+                            End = 2019-12-29.113000.000
+                            DKP = {
+                                ad3eacf1 = {
+                                    type = 12353674
+                                    assigner = eeaef11b
+                                    encounter = ade3d3bc
+                                    value = 1.0
+                                    reason = nil
+                                    datetime = { year = 2019, month = 12, day = 29, hour = 8, minute = 49, second = 00, msec = 102 } 
+                                    members = {
+                                        eeaef11b,
+
+                                    }
+                                }
+                            }
+                            Loot = {
+                                2aa3ee12 = {
+                                    item_id = 1231
+                                    datetime = { year = 2019, month = 12, day = 29, hour = 8, minute = 49, second = 00, msec = 102 }
+                                    price = 40
+                                    player = eeaef11b
+                                }
+                            }
                         }
                     }
                 }
