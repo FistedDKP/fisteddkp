@@ -13,7 +13,7 @@ local commPrefix = "FDKP-"
 -- 
 -- { index = { Team = '', Tier = '', Raid = '', Encounter = '', Assigner = '', Member = '', DKP = '', Reason = '', datetime = '' } }
 -- { index = { Team = '', Tier = '', Raid = '', Encounter = '', Player = '', Loot = '' } }
--- { index = { Team = '', Player = '',  } }
+-- { index = { Team = '', Player = '', Level = 60, Race = Troll, Class = Priest, Role = nil, Permission = nil } }
 
 local commsProto = {
     Ver = {
@@ -177,7 +177,6 @@ function FistedDKP_Communication:CommEnable()
         end
     end
 end
-
 
 function FistedDKP_Communication:SendVersionQuery(target)
     target = target or 'GUILD'

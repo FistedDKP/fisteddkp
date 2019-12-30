@@ -11,7 +11,7 @@ FistedDKP_DB = {
                     12353674 = 'Zero-Sum Distribution',
                 }
             }
-            Loot = {
+            Item = {
                 abcd1234 = {
                     itemid = 1234
                     default = 40
