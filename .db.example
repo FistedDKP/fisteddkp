@@ -11,7 +11,18 @@ FistedDKP_DB = {
                     12353674 = 'Zero-Sum Distribution',
                 }
             }
-            Members = {
+            Loot = {
+                abcd1234 = {
+                    itemid = 1234
+                    default = 40
+                    classes = {
+                        priest,
+                        druid,
+                        shaman
+                    }
+                }
+            }
+            Players = {
                 eeaef11b = {
                     Name = 'Anaximander'
                     Level = 60
@@ -50,7 +61,7 @@ FistedDKP_DB = {
                                     value = 1.0
                                     reason = nil
                                     datetime = { year = 2019, month = 12, day = 29, hour = 8, minute = 49, second = 00, msec = 102 } 
-                                    members = {
+                                    players = {
                                         eeaef11b,
 
                                     }
@@ -60,7 +71,7 @@ FistedDKP_DB = {
                             }
                             Loot = {
                                 2aa3ee12 = {
-                                    item_id = 1231
+                                    loot = abcd1234
                                     datetime = { year = 2019, month = 12, day = 29, hour = 8, minute = 49, second = 00, msec = 102 }
                                     price = 40
                                     player = eeaef11b
@@ -72,5 +83,4 @@ FistedDKP_DB = {
             }
         }
     }
-    Players = {}
 }

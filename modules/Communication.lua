@@ -12,7 +12,8 @@ local commPrefix = "FDKP-"
 -- Packet Format:
 -- 
 -- { index = { Team = '', Tier = '', Raid = '', Encounter = '', Assigner = '', Member = '', DKP = '', Reason = '', datetime = '' } }
--- { index = { Team = '', Tier = '', Raid = '', Loot = {} } }
+-- { index = { Team = '', Tier = '', Raid = '', Encounter = '', Player = '', Loot = '' } }
+-- { index = { Team = '', Player = '',  } }
 
 local commsProto = {
     Ver = {
@@ -41,6 +42,21 @@ local commsProto = {
         Respond = {
             Prefix = '3002',
             Receiver = 'Team_Respond'
+        },
+        IndexQuery = {
+            Prefix = '3011'
+        },
+        IndexRespond = {
+            Prefix = '3012'
+        },
+        IndexRequest = {
+            Prefix = '3021'
+        },
+        IndexSend = {
+            Prefix = '3022'
+        },
+        IndexReceived = {
+            Prefix = '3023'
         }
     },
     DKP = {
@@ -60,12 +76,15 @@ local commsProto = {
             Prefix = '4012',
             Receiver = 'DKP_IndexRespond'
         },
+        IndexRequest = {
+            Prefix = '4021'
+        },
         IndexSend = {
-            Prefix = '4021',
+            Prefix = '4022',
             Receiver = 'DKP_IndexSend'
         },
         IndexReceived = {
-            Prefix = '4022',
+            Prefix = '4023',
             Receiver = 'DKP_IndexReceived'
         },
         BroadcastSend = {
@@ -94,12 +113,15 @@ local commsProto = {
             Prefix = '6012',
             Receiver = 'Loot_IndexRespond'
         },
+        IndexRequest = {
+            Prefix = '6021'
+        },
         IndexSend = {
-            Prefix = '6021',
+            Prefix = '6022',
             Receiver = 'Loot_IndexSend'
         },
         IndexReceived = {
-            Prefix = '6022',
+            Prefix = '6023',
             Receiver = 'Loot_IndexReceived'
         },
         BroadcastSend = {
@@ -149,7 +171,7 @@ FistedDKP_Communication = FistedDKP:NewModule("FistedDKP_Communication", "AceCom
 function FistedDKP_Communication:CommEnable()
     for k,v in pairs(commsProto) do
         for ik,iv in pairs(v) do
-            if iv.Prefix != nil and iv.Receiver != nil then
+            if iv.Prefix ~= nil and iv.Receiver ~= nil then
                 self:RegisterComm(commPrefix .. iv.Prefix, iv.Receiver)
             end
         end
@@ -157,7 +179,8 @@ function FistedDKP_Communication:CommEnable()
 end
 
 
-function FistedDKP_Communication:SendVersionQuery(target = 'GUILD')
+function FistedDKP_Communication:SendVersionQuery(target)
+    target = target or 'GUILD'
     print("Sending Query")
     self:SendCommMessage(commPrefix .. commsProto.Ver.Query.Prefix,"VERSION","GUILD")
 end
