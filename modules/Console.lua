@@ -78,7 +78,7 @@ end
             shortname = "MC",
             zoneid = 2717
         })
-        
+
         local encounter = FistedDKP_DB_Encounter:Set({
             zone = zone,
             name = "Lucifron",

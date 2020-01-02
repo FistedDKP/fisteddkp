@@ -26,6 +26,10 @@ function FistedDKP_DB_Raid:Get(index)
 end
 
 function FistedDKP_DB_Raid:Set(data)
+    if data.starttime == nil and data.index == nil then
+        data.starttime = time()
+    end
+
     local index = data.index or sha1(fisted.serializer:Serialize(self:BuildHash(data)))
     
     if data.team and data.tier then
@@ -34,10 +38,6 @@ function FistedDKP_DB_Raid:Set(data)
 
     if FistedDKP_Data.teams[data.team].tiers[data.tier].raids == nil then
         FistedDKP_Data.teams[data.team].tiers[data.tier].raids = {}
-    end
-    
-    if data.starttime == nil then
-        data.starttime = time()
     end
 
     if FistedDKP_Data.teams[data.team].tiers[data.tier].raids[index] then
@@ -94,7 +94,8 @@ function FistedDKP_DB_Raid:BuildHash(data)
         raid = {
             team = data.team,
             tier = data.name,
-            zone = data.zone
+            zone = data.zone,
+            starttime = data.starttime
         }
     }
 end
