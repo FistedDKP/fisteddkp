@@ -6,12 +6,10 @@ function FistedDKP_DB_Encounter:Get(index)
 end
 
 function FistedDKP_DB_Encounter:Set(data)
-    local index = data.index or sha1(fisted.serializer:Serialize(self:BuildHash(data)))
-    local zone = data.zone or nil
+    assert(data.zone and FistedDKP_DB_Zone:VerifyCreate(zone), "Invalid zone or zone not set")
 
-    if data.zone then
-        FistedDKP_DB_Zone:Verify(zone)
-    end
+    local index = data.index or sha1(fisted.serializer:Serialize(self:BuildHash(data)))
+    local zone = data.zone
 
     if FistedDKP_Data.zones[zone].encounters == nil then
         FistedDKP_Data.zones[zone].encounters = {}
@@ -33,7 +31,24 @@ function FistedDKP_DB_Encounter:Set(data)
         }
     end
 
+    FistedDKP_DB:SetIndexCache(index,self:BuildCache(FistedDKP_Data.zones[zone].encounters[index]))
+
     return index
+end
+
+function FistedDKP_DB_Encounter:VerifyCreate(zone, index)
+    if self:Verify(zone, index) then
+        FistedDKP_Debug:Message("Encounter Verify: Creating")
+        self:Set({
+            index = index,
+            zone = zone,
+            name = "",
+            encounterid = nil
+        })
+        return self:Verify(zone, index)
+    else
+        return true
+    end
 end
 
 function FistedDKP_DB_Encounter:Verify(zone,index)
@@ -46,15 +61,16 @@ function FistedDKP_DB_Encounter:Verify(zone,index)
         end
     end
 
-    FistedDKP_Debug:Message("Encounter Verify: Creating")
-    self:Set({
-        index = index,
-        zone = zone,
-        name = "",
-        encounterid = nil
-    })
+    return false
+end
 
-    return true
+function FistedDKP_DB_Encounter:BuildCache(data)
+    return {
+        encounter = {
+            zone = data.zone,
+            encounter = data.index
+        }
+    }
 end
 
 function FistedDKP_DB_Encounter:BuildHash(data)

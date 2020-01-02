@@ -6,11 +6,9 @@ function FistedDKP_DB_Tier:Get(index)
 end
 
 function FistedDKP_DB_Tier:Set(data)
+    assert(data.team and FistedDKP_DB_Team:VerifyCreate(data.team), "Invalid team or team not set")
+
     local index = data.index or sha1(fisted.serializer:Serialize(self:BuildHash(data)))
-    
-    if data.team then
-        FistedDKP_DB_Team:Verify(data.team)
-    end
 
     if FistedDKP_Data.teams[data.team].tiers == nil then
         FistedDKP_Data.teams[data.team].tiers = {}
@@ -33,7 +31,23 @@ function FistedDKP_DB_Tier:Set(data)
         }
     end
 
+    FistedDKP_DB:SetIndexCache(index,self:BuildCache(FistedDKP_Data.teams[data.team].tiers[index]))
+
     return index
+end
+
+function FistedDKP_DB_Tier:VerifyCreate(team, index)
+    if self:Verify(team, tier, index) then
+        FistedDKP_Debug:Message("Tier Verify: Creating")
+        self:Set({
+            index = index,
+            team = team,
+            name = ""
+        })
+        return self:Verify(team, index)
+    else
+        return true
+    end
 end
 
 function FistedDKP_DB_Tier:Verify(team, index)
@@ -46,14 +60,16 @@ function FistedDKP_DB_Tier:Verify(team, index)
         end
     end
 
-    FistedDKP_Debug:Message("Tier Verify: Creating")
-    self:Set({
-        index = index,
-        team = team,
-        name = ""
-    })
+    return false
+end
 
-    return true
+function FistedDKP_DB_Tier:BuildCache(data)
+    return {
+        tier = {
+            team = data.team,
+            tier = data.index
+        }
+    }
 end
 
 function FistedDKP_DB_Tier:BuildHash(data)

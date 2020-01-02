@@ -35,7 +35,6 @@ function FistedDKP_DB_DKP:Get(index)
 end
 
 function FistedDKP_DB_DKP:Set(data, index)
-    local index = index or sha1(fisted.serializer:Serialize(self:GetHashData(data)))
     assert(data.team, "Team is required")
     assert(data.tier, "Tier is required")
     assert(data.raid, "Raid is required")
@@ -44,20 +43,15 @@ function FistedDKP_DB_DKP:Set(data, index)
     assert(data.assigner, "Assigner is required")
     assert(data.value, "Value is required")
 
-    
-    if data.team and data.tier and data.raid then
-        FistedDKP_DB_Raid:Verify(data.team, data.tier, data.raid)
+    assert(FistedDKP_DB_Raid:VerifyCreate(data.team, data.tier, data.raid),"Invalid raid or raid not set")
+    if data.timestamp == nil then
+        data.timestamp = time()
     end
-
     
+    local index = index or sha1(fisted.serializer:Serialize(self:GetHashData(data)))
 
     if FistedDKP_Data.team[data.team].tier[data.tier].raid[data.raid].dkp == nil then
         FistedDKP_Data.team[data.team].tier[data.tier].raid[data.raid].dkp = {}
-    end
-
-    
-    if data.timestamp == nil then
-        data.timestamp = time()
     end
 
     if FistedDKP_Data.team[data.team].tier[data.tier].raid[index] then
@@ -89,6 +83,18 @@ function FistedDKP_DB_DKP:Set(data, index)
     end
 
     return index
+end
+
+function FistedDKP_DB_DKP:BuildCache(data)
+    return {
+        zone = {
+            team = data.team,
+            tier = data.tier,
+            raid = data.raid,
+            encounter = data.encounter,
+            dkp = data.index
+        }
+    }
 end
 
 function FistedDKP_DB_DKP:BuildHash(data)

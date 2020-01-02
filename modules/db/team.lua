@@ -32,7 +32,25 @@ function FistedDKP_DB_Team:Set(data)
         }
     end
 
+    FistedDKP_DB:SetIndexCache(index,self:BuildCache(FistedDKP_Data.teams[index]))
+
     return index
+end
+
+function FistedDKP_DB_Team:VerifyCreate(index)
+    if self:Verify(index) then
+        FistedDKP_Debug:Message("Team Verify: Creating")
+        self:Set({
+            index = index,
+            name = "",
+            founder = "",
+            type = "",
+            whitelist = {}
+        })
+        return self:Verify(index)
+    else
+        return true
+    end
 end
 
 function FistedDKP_DB_Team:Verify(index)
@@ -43,16 +61,15 @@ function FistedDKP_DB_Team:Verify(index)
         end
     end
 
-    FistedDKP_Debug:Message("Team Verify: Creating")
-    self:Set({
-        index = index,
-        name = "",
-        founder = "",
-        type = "",
-        whitelist = {}
-    })
+    return false
+end
 
-    return true
+function FistedDKP_DB_Team:BuildCache(data)
+    return {
+        team = {
+            team = data.index
+        }
+    }
 end
 
 function FistedDKP_DB_Team:BuildHash(data)

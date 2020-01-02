@@ -17,7 +17,6 @@ function FistedDKP_DB_Zone:Set(data)
         FistedDKP_Data.zones[index].id = data.id
         FistedDKP_Data.zones[index].name = data.name
         FistedDKP_Data.zones[index].shortname = data.shortname
-        
     else
         FistedDKP_Debug:Message("Zone Set: Creating")
         FistedDKP_Data.zones[index] = {
@@ -29,7 +28,24 @@ function FistedDKP_DB_Zone:Set(data)
         }
     end
 
+    FistedDKP_DB:SetIndexCache(index,self:BuildCache(FistedDKP_Data.zones[index]))
+    
     return index
+end
+
+function FistedDKP_DB_Zone:VerifyCreate(index)
+    if self:Verify(index) then
+        FistedDKP_Debug:Message("Zone Verify: Creating")
+        self:Set({
+            index = index,
+            id = nil,
+            name = "",
+            shortname = ""
+        })
+        return self:Verify(index)
+    else
+        return true
+    end
 end
 
 function FistedDKP_DB_Zone:Verify(index)
@@ -40,15 +56,15 @@ function FistedDKP_DB_Zone:Verify(index)
         end
     end
 
-    FistedDKP_Debug:Message("Zone Verify: Creating")
-    self:Set({
-        index = index,
-        id = nil,
-        name = "",
-        shortname = ""
-    })
+    return false
+end
 
-    return true
+function FistedDKP_DB_Zone:BuildCache(data)
+    return {
+        zone = {
+            zone = data.index
+        }
+    }
 end
 
 function FistedDKP_DB_Zone:BuildHash(data)

@@ -68,8 +68,7 @@ end
     end
 
     if command == "reinit" then
-        FistedDKP_Data = {}
-        FistedDKP_Cache = {}
+        FistedDKP_DB:Init()
     end
 
     if command == "insert" then

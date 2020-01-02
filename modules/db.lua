@@ -13,14 +13,25 @@ FistedDKP_DB = FistedDKP:NewModule("FistedDKP_DB")
 -- ad3eacf1 = { type = 'DKP', Team = 'e3e3e3e3', Tier = 'a6d7e8b1', Raid = 'bb32c4a1', DKP = 'ad3eacf1' }
 -- 2aa3ee12 = { type = 'Loot', Team = 'e3e3e3e3', Tier = 'a6d7e8b1', Raid = 'bb32c4a1', Loot = '2aa3ee12' }
 --
-fisted.indexCache = {}
 
-if FistedDKP_Data == nil then
+function FistedDKP_DB:Init()
     FistedDKP_Data = {}
-    FistedDKP_Cache = {}
+    FistedDKP_Cache = {
+        teams = {},
+        indexCache = {}
+    }
 end
 
-function FistedDKP_DB:QueryIndex(index)
+function FistedDKP_DB:QueryIndexCache(index)
+    if FistedDKP_Cache.indexCache[index] then
+        return FistedDKP_Cache.indexCache[index]
+    end
+
+    return nil
+end
+
+function FistedDKP_DB:SetIndexCache(index,data)
+    FistedDKP_Cache.indexCache[index] = data
 end
 
 function FistedDKP_DB:Set(data)
@@ -56,4 +67,8 @@ function FistedDKP_DB:Get(index)
             return nil
         end
     end
+end
+
+if FistedDKP_Data == nil then
+    FistedDKP_DB:Init()
 end

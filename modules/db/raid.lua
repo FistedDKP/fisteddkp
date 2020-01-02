@@ -26,15 +26,13 @@ function FistedDKP_DB_Raid:Get(index)
 end
 
 function FistedDKP_DB_Raid:Set(data)
+    assert(data.team and data.tier and FistedDKP_DB_Tier:VerifyCreate(data.team, data.tier), "Invalid tier or tier not set")
+
     if data.starttime == nil and data.index == nil then
         data.starttime = time()
     end
 
     local index = data.index or sha1(fisted.serializer:Serialize(self:BuildHash(data)))
-    
-    if data.team and data.tier then
-        FistedDKP_DB_Tier:Verify(data.team, data.tier)
-    end
 
     if FistedDKP_Data.teams[data.team].tiers[data.tier].raids == nil then
         FistedDKP_Data.teams[data.team].tiers[data.tier].raids = {}
@@ -62,7 +60,26 @@ function FistedDKP_DB_Raid:Set(data)
         }
     end
 
+    FistedDKP_DB:SetIndexCache(index,self:BuildCache(FistedDKP_Data.teams[data.team].tiers[data.tier].raids[index]))
+
     return index
+end
+
+function FistedDKP_DB_Raid:VerifyCreate(team, tier, index)
+    if self:Verify(team, tier, index) then
+        FistedDKP_Debug:Message("Raid Verify: Creating")
+        self:Set({
+            index = index,
+            team = team,
+            tier = tier,
+            zone = nil,
+            starttime = nil,
+            endtime = nil
+        })
+        return self:Verify(team, tier, index)
+    else
+        return true
+    end
 end
 
 function FistedDKP_DB_Raid:Verify(team, tier, index)
@@ -76,17 +93,17 @@ function FistedDKP_DB_Raid:Verify(team, tier, index)
         end
     end
 
-    FistedDKP_Debug:Message("Raid Verify: Creating")
-    self:Set({
-        index = index,
-        team = team,
-        tier = tier,
-        zone = nil,
-        starttime = nil,
-        endtime = nil
-    })
+    return false
+end
 
-    return true
+function FistedDKP_DB_Raid:BuildCache(data)
+    return {
+        raid = {
+            team = data.team,
+            tier = data.tier,
+            raid = data.index
+        }
+    }
 end
 
 function FistedDKP_DB_Raid:BuildHash(data)
