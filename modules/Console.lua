@@ -30,8 +30,89 @@ end
         print(value)
     end
 
+    if command == "sha" then
+        print(sha1("test"))
+    end
+
+    if command == "serialize" then
+        serialized = FistedDKP_Communication:SerializerTest( {
+            dkp = {
+                team="e3e3e3e3",
+                tier='a6d7e8b1',
+                raid='bb32c4a1',
+                encounter='ddac1234',
+                type='12353674',
+                assigner='eeaef11b',
+                datetime='2019-12-30.083910.010',
+            }
+        })
+        print(sha1(serialized))
+        
+        serialized = FistedDKP_Communication:SerializerTest( {
+            encounter = {
+                team="e3e3e3e3",
+                tier='a6d7e8b1',
+                raid='bb32c4a1',
+                encounter='ddac1234'
+            }
+        })
+        print(sha1(serialized))
+
+    end
+
+    if command == "datetime" then
+        print(FistedDKP:GetDateTimeWithMilliseconds())
+    end
+
+    if command == "setup" then
+    end
+
+    if command == "reinit" then
+        FistedDKP_Data = {}
+        FistedDKP_Cache = {}
+    end
+
+    if command == "insert" then
+        local zone = FistedDKP_DB_Zone:Set({
+            name = "Molten Core",
+            shortname = "MC",
+            zoneid = 2717
+        })
+        
+        local encounter = FistedDKP_DB_Encounter:Set({
+            zone = zone,
+            name = "Lucifron",
+            encounterid = 663
+        })
+
+        local team = FistedDKP_DB_Team:Set({
+            name = "IRONFIST",
+            type = "GUILD",
+            founder = "toljar",
+            whitelist = {}
+
+        })
+
+        local tier = FistedDKP_DB_Tier:Set({
+            team = team,
+            name = "Tier 1"
+        })
+
+        local raid = FistedDKP_DB_Raid:Set({
+            team = team,
+            tier = tier,
+            zone = zone,
+            starttime = nil,
+            endtime = nil
+        })
+    end
+
+    if command == "view" then
+        print(FistedDKP_DB:Get())
+    end
+
     if command == "version" then
         print(fisted.player)
         FistedDKP_Communication:SendVersionQuery()
     end
- end
+ end 

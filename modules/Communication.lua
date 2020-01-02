@@ -2,7 +2,6 @@ local _, fisted = ...
 local _G = _G
 local _L = fisted.L
 
-local LibAceSerializer = LibStub:GetLibrary("AceSerializer-3.0")
 local LibDeflate = LibStub:GetLibrary("LibDeflate")
 
 local flags = {}
@@ -176,6 +175,10 @@ function FistedDKP_Communication:CommEnable()
             end
         end
     end
+end
+
+function FistedDKP_Communication:SerializerTest(obj)
+    return fisted.serializer:Serialize(obj)
 end
 
 function FistedDKP_Communication:SendVersionQuery(target)

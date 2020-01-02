@@ -4,7 +4,7 @@
 ## Notes: A Custom DKP system
 ## Dependencies: 
 ## OptionalDependencies: 
-## SavedVariables: FistedDKP_DB
+## SavedVariables: FistedDKP_Data, FistedDKP_Cache
 ## DefaultState: enabled
 ## Author: Anaximander
 ## X-Website: http://www.github.com/fistedkp/fisteddkp/
@@ -14,13 +14,24 @@
 
 embeds.xml
 
+lib\sha1.lua
+
 FistedDKP.lua
 
 localization\core.lua
 localization\en-us.lua
 localization\it-it.lua
 
+modules\debug.lua
+
 modules\Communication.lua
 modules\Console.lua
+modules\db.lua
+modules\db\zone.lua
+modules\db\encounter.lua
+modules\db\team.lua
+modules\db\tier.lua
+modules\db\raid.lua
+modules\db\dkp.lua
 
 FistedDKP_Core.lua

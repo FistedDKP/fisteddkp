@@ -1,4 +1,15 @@
-FistedDKP_DB = {
+FistedDKP_Data = {
+    Zone = {
+        index = cbcdedad,
+        name = 'Molten Core',
+        shortname = 'MC'
+        encounters = {
+            ade3d3bc = {
+                name = 'Lucifron',
+                encounterid = 1234
+            }
+        }
+    }
     Team = {
         e3e3e3e3 = {
             Name = Winners
@@ -34,16 +45,10 @@ FistedDKP_DB = {
             },
             Tier = {
                 a6d7e8b1 = {
-                    Name = Molten Core
-                    Shortname = MC
-                    Zoneid = 12341
-                    Encounters = {
-                        ade3d3bc = {
-                            Name = Lucifron
-                            
-                        }
+                    encounters = {
+                        ade3d3bc,
                     },
-                    Raids = {
+                    raids = {
                         c34c1d3f = {
                             Start = 2019-12-24.1300
                             End = 2019-12-24.1600
@@ -60,13 +65,14 @@ FistedDKP_DB = {
                                     encounter = ade3d3bc
                                     value = 1.0
                                     reason = nil
-                                    datetime = { year = 2019, month = 12, day = 29, hour = 8, minute = 49, second = 00, msec = 102 } 
+                                    timestamp = 3242342123
                                     players = {
                                         eeaef11b,
-
                                     }
-                                    relatedloot = 2aa3ee12
-                                    relateddkp = nil
+                                    related = {
+                                        loot = 2aa3ee12,
+                                        dkp = nil
+                                    }
                                 }
                             }
                             Loot = {
