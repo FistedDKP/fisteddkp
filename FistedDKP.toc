@@ -15,6 +15,7 @@
 embeds.xml
 
 lib\sha1.lua
+lib\tablesort.lua
 
 FistedDKP.lua
 

@@ -2,11 +2,14 @@ local _, fisted = ...
 
 FistedDKP_Console = FistedDKP:NewModule("FistedDKP_Console", "AceConsole-3.0")
 
+local testraid = nil
+local testvalue = 0
+
 function FistedDKP_Console:OnEnable()
     self:RegisterChatCommand("fdkp","HandleSlashCommands")
 end
 
- function FistedDKP_Console:HandleSlashCommands(str)
+function FistedDKP_Console:HandleSlashCommands(str)
     if( #str == 0 ) then
         -- Open GUI
         return
@@ -71,7 +74,7 @@ end
         FistedDKP_DB:Init()
     end
 
-    if command == "insert" then
+    if command == "init" then
         local zone = FistedDKP_DB_Zone:Set({
             name = "Molten Core",
             shortname = "MC",
@@ -104,6 +107,34 @@ end
             starttime = nil,
             endtime = nil
         })
+
+        testraid = raid
+    end
+
+    if command == "insert" then
+        local raidinfo = FistedDKP_DB_Raid:Get(testraid)
+        testvalue = testvalue + 1
+
+        local dkp = FistedDKP_DB_DKP:Set({
+            team = raidinfo.team,
+            tier = raidinfo.tier,
+            raid = raidinfo.index,
+            encounter = '1a9700b6c8f763b6337d52ee1a63a6b93b36d102',
+            type = "Test",
+            assigner = 'Anaximander',
+            value = testvalue
+        })
+    end
+
+    if command == "list" then
+        local raidinfo = nil
+        if not testraid and arg1 then
+            raidinfo = FistedDKP_DB_Raid:Get(arg1)
+        else
+            raidinfo = FistedDKP_DB_Raid:Get(testraid)
+        end
+
+        FistedDKP_DB_DKP:TestSort(raidinfo.team, raidinfo.tier, raidinfo.index)
     end
 
     if command == "view" then

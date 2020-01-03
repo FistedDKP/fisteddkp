@@ -6,7 +6,7 @@ function FistedDKP_DB_Encounter:Get(index)
 end
 
 function FistedDKP_DB_Encounter:Set(data)
-    assert(data.zone and FistedDKP_DB_Zone:VerifyCreate(zone), "Invalid zone or zone not set")
+    assert(data.zone and FistedDKP_DB_Zone:VerifyCreate(data.zone), "Invalid zone or zone not set")
 
     local index = data.index or sha1(fisted.serializer:Serialize(self:BuildHash(data)))
     local zone = data.zone
@@ -37,8 +37,8 @@ function FistedDKP_DB_Encounter:Set(data)
 end
 
 function FistedDKP_DB_Encounter:VerifyCreate(zone, index)
-    if self:Verify(zone, index) then
-        FistedDKP_Debug:Message("Encounter Verify: Creating")
+    if not self:Verify(zone, index) then
+        FistedDKP_Debug:Message("Encounter Verify: Creating (" .. zone .. "," .. index ")")
         self:Set({
             index = index,
             zone = zone,

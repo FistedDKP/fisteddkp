@@ -17,7 +17,9 @@ FistedDKP_DB = FistedDKP:NewModule("FistedDKP_DB")
 function FistedDKP_DB:Init()
     FistedDKP_Data = {}
     FistedDKP_Cache = {
-        teams = {},
+        dkp = {},
+        loot = {},
+        players = {},
         indexCache = {}
     }
 end
@@ -32,6 +34,9 @@ end
 
 function FistedDKP_DB:SetIndexCache(index,data)
     FistedDKP_Cache.indexCache[index] = data
+end
+
+function FistedDKP_DB:SetDKPCache(index, value)
 end
 
 function FistedDKP_DB:Set(data)

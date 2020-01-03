@@ -34,7 +34,7 @@ function FistedDKP_DB_Zone:Set(data)
 end
 
 function FistedDKP_DB_Zone:VerifyCreate(index)
-    if self:Verify(index) then
+    if not self:Verify(index) then
         FistedDKP_Debug:Message("Zone Verify: Creating")
         self:Set({
             index = index,

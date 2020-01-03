@@ -38,7 +38,7 @@ function FistedDKP_DB_Team:Set(data)
 end
 
 function FistedDKP_DB_Team:VerifyCreate(index)
-    if self:Verify(index) then
+    if not self:Verify(index) then
         FistedDKP_Debug:Message("Team Verify: Creating")
         self:Set({
             index = index,

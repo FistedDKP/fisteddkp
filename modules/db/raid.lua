@@ -3,20 +3,10 @@ local _, fisted = ...
 FistedDKP_DB_Raid = FistedDKP_DB:NewModule("FistedDKP_DB_Raid")
 
 function FistedDKP_DB_Raid:Get(index)
-    if fisted.indexCache[index] then
-        local indexCache = fisted.indexCache[index]
+    if FistedDKP_Cache.indexCache[index] and FistedDKP_Cache.indexCache[index].raid then
+        local indexCache = FistedDKP_Cache.indexCache[index].raid
         if indexCache.team and indexCache.tier and indexCache.raid then
-            return { 
-                index = { 
-                    team = indexCache.team,
-                    tier = indexCache.tier,
-                    raid = {
-                        index = indexCache.raid,
-                        starttime = FistedDKP_DB.teams[indexCache.team].tiers[indexCache.tier].raids[indexCache.raid].starttime,
-                        endtime = FistedDKP_DB.teams[indexCache.team].tiers[indexCache.tier].raids[indexCache.raid].endtime
-                    }
-                }
-            }
+            return FistedDKP_Data.teams[indexCache.team].tiers[indexCache.tier].raids[indexCache.raid]
         else
             return nil
         end
@@ -66,7 +56,7 @@ function FistedDKP_DB_Raid:Set(data)
 end
 
 function FistedDKP_DB_Raid:VerifyCreate(team, tier, index)
-    if self:Verify(team, tier, index) then
+    if not self:Verify(team, tier, index) then
         FistedDKP_Debug:Message("Raid Verify: Creating")
         self:Set({
             index = index,
@@ -83,7 +73,6 @@ function FistedDKP_DB_Raid:VerifyCreate(team, tier, index)
 end
 
 function FistedDKP_DB_Raid:Verify(team, tier, index)
-
     if FistedDKP_DB_Tier:Verify(team, tier) then
         if FistedDKP_Data.teams[team].tiers[tier].raids ~= nil then
             if FistedDKP_Data.teams[team].tiers[tier].raids[index] ~= nil then
@@ -92,7 +81,7 @@ function FistedDKP_DB_Raid:Verify(team, tier, index)
             end
         end
     end
-
+    FistedDKP_Debug:Message("Verify Failed")
     return false
 end
 

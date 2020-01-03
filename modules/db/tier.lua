@@ -37,8 +37,8 @@ function FistedDKP_DB_Tier:Set(data)
 end
 
 function FistedDKP_DB_Tier:VerifyCreate(team, index)
-    if self:Verify(team, tier, index) then
-        FistedDKP_Debug:Message("Tier Verify: Creating")
+    if not self:Verify(team, index) then
+        FistedDKP_Debug:Message("Tier Verify: Creating (" .. team .. "," .. index ")")
         self:Set({
             index = index,
             team = team,
