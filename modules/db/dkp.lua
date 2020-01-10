@@ -2,7 +2,56 @@ local _, fisted = ...
 
 FistedDKP_DB_DKP = FistedDKP:NewModule("FistedDKP_DB_DKP")
 
-function FistedDKP_DB_DKP:Get(index)
+function FistedDKP_DB_DKP:Get(filters)
+    local sortedKeys
+    if filters and filters.tier and filters.player then
+        local tier, player = filters.tier, filters.player
+        sortedKeys = getFilteredKeysSortedByValue(FistedDKP_Cache.indexCache, function (key,value) return value.dkp and value.dkp.tier and value.dkp.tier == tier and value.dkp.player == player end,function (a,b) return a.dkp.timestamp < b.dkp.timestamp end)
+    elseif filters and filters.player then
+        sortedKeys = getFilteredKeysSortedByValue(FistedDKP_Cache.indexCache, function (key,value) return value.dkp and value.dkp.player == player end,function (a,b) return a.dkp.timestamp < b.dkp.timestamp end)
+    else
+        sortedKeys = getFilteredKeysSortedByValue(FistedDKP_Cache.indexCache, function (key,value) return value.dkp end,function (a,b) return a.dkp.timestamp < b.dkp.timestamp end)
+    end
+    
+    local sorted = {}
+
+    for _, key in ipairs(sortedKeys) do
+        tinsert(sorted,FistedDKP_Cache.indexCache[sortedKeys])
+    end
+    return sorted
+end
+
+function FistedDKP_DB_DKP:GetTotal(filters)
+    sorted = self:GetPlayer(filters)
+
+    local total = 0
+    if #sorted > 0 then
+        for _, value in ipairs(sorted) do
+            total = total + value.value
+        end
+    end
+
+    return total
+end
+
+function FistedDKP_DB_DKP:ClearAll(filters)
+    local sortedKeys = nil
+    if filters and filters.tier then
+        sortedKeys = getFilteredKeysSortedByValue(FistedDKP_Cache.indexCache, function (key,value) return value.dkp and value.dkp.tier and value.dkp.tier == tier end,function (a,b) return a.dkp.timestamp < b.dkp.timestamp end)
+    elseif filters and filters.team then
+        sortedKeys = getFilteredKeysSortedByValue(FistedDKP_Cache.indexCache, function (key,value) return value.dkp and value.dkp.team and value.dkp.team == team end,function (a,b) return a.dkp.timestamp < b.dkp.timestamp end)
+    elseif filters and filters.player then
+        sortedKeys = getFilteredKeysSortedByValue(FistedDKP_Cache.indexCache, function (key,value) return value.dkp and value.dkp.player and value.dkp.player == player end,function (a,b) return a.dkp.timestamp < b.dkp.timestamp end)
+    else
+        sortedKeys = getFilteredKeysSortedByValue(FistedDKP_Cache.indexCache, function (key,value) return value.dkp end,function (a,b) return a.dkp.timestamp < b.dkp.timestamp end)
+    end
+
+    for _, key in ipairs(sortedKeys) do
+        self:DeleteIndex(key)
+    end
+end
+
+function FistedDKP_DB_DKP:GetIndex(index)
     if fisted.indexCache[index] then
         local indexCache = fisted.indexCache[index]
         if indexCache.team and indexCache.tier and indexCache.raid and indexCache.dkp then
@@ -21,7 +70,7 @@ function FistedDKP_DB_DKP:Get(index)
                         value = dkp.value,
                         reason = dkp.reason,
                         datetime = dkp.timestamp,
-                        players = dkp.players,
+                        player = dkp.player,
                         related = dkp.related
                     }
                 }
@@ -34,7 +83,7 @@ function FistedDKP_DB_DKP:Get(index)
     end
 end
 
-function FistedDKP_DB_DKP:Set(data, index)
+function FistedDKP_DB_DKP:SetIndex(data, index)
     assert(data.team, "Team is required")
     assert(data.tier, "Tier is required")
     assert(data.raid, "Raid is required")
@@ -77,7 +126,7 @@ function FistedDKP_DB_DKP:Set(data, index)
             value = data.value,
             reason = data.reason,
             timestamp = data.timestamp,
-            players = data.players,
+            player = data.player,
             related = data.related
         }
     end
@@ -85,6 +134,17 @@ function FistedDKP_DB_DKP:Set(data, index)
     FistedDKP_DB:SetIndexCache(index,self:BuildCache(FistedDKP_Data.teams[data.team].tiers[data.tier].raids[data.raid].dkp[index]))
 
     return index
+end
+
+function FistedDKP_DB_DKP:DeleteIndex(index)
+    local indexCache = FistedDKP_DB:GetIndexCache(index)
+    if indexCache.dkp then
+        local team, tier, raid = indexCache.dkp.team, indexCache.dkp.tier, indexCache.dkp.raid
+        if FistedDKP_DB_Raid:Verify(team, tier, raid) then
+            FistedDKP_Data.teams[team].tiers[tier].raids[raid].dkp[index]=nil
+            FistedDKP_Cache.indexCache[index]=nil
+        end
+    end
 end
 
 function FistedDKP_DB_DKP:BuildCache(data)
@@ -100,6 +160,7 @@ function FistedDKP_DB_DKP:BuildHash(data)
             tier = data.tier,
             raid = data.raid,
             encounter = data.encounter,
+            player = data.player,
             type = data.type,
             timestamp = data.timestamp
         }
@@ -113,8 +174,14 @@ function FistedDKP_DB_DKP:TestSort(team, tier, raid)
         print(key, value.timestamp, value.value)
     end
 
-    local testsort = getFilteredKeysSortedByValue(FistedDKP_Cache.indexCache, function (key,value) if value.dkp then return value.dkp and value.dkp.raid and raid and value.dkp.raid == raid end end,function (a,b) return a.dkp.timestamp < b.dkp.timestamp end)
+    local testsort = getFilteredKeysSortedByValue(FistedDKP_Cache.indexCache, function (key,value) return value.dkp and value.dkp.raid and raid and value.dkp.raid == raid end,function (a,b) return a.dkp.timestamp < b.dkp.timestamp end)
     for _, key in ipairs(testsort) do
         print(key, FistedDKP_Data.teams[team].tiers[tier].raids[raid].dkp[key].timestamp, FistedDKP_Data.teams[team].tiers[tier].raids[raid].dkp[key].value)
     end
+
+    print(#testsort)
+
+    local testsort = getFilteredKeysSortedByValue(FistedDKP_Cache.indexCache, function (key,value) return value.dkp and value.dkp.raid and raid and value.dkp.raid == raid and value.dkp.encounter and value.dkp.encounter == 'fb88fd4bcd61b6aa90557b137547b84719b91808' end,function (a,b) return a.dkp.timestamp < b.dkp.timestamp end)
+
+    print(#testsort)
 end

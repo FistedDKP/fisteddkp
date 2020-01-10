@@ -18,6 +18,7 @@ lib\sha1.lua
 lib\tablesort.lua
 
 FistedDKP.lua
+Variables.lua
 
 localization\core.lua
 localization\en-us.lua
@@ -26,13 +27,24 @@ localization\it-it.lua
 modules\debug.lua
 
 modules\Communication.lua
-modules\Console.lua
 modules\db.lua
 modules\db\zone.lua
 modules\db\encounter.lua
 modules\db\team.lua
 modules\db\tier.lua
 modules\db\raid.lua
+modules\db\player.lua
 modules\db\dkp.lua
 
+modules\gui.lua
+modules\gui\summary.lua
+modules\gui\dkp.lua
+modules\gui\loot.lua
+modules\gui\teams.lua
+modules\gui\options.lua
+modules\gui\impexp.lua
+modules\gui\auction.lua
+modules\gui\bid.lua
+
+modules\console.lua
 FistedDKP_Core.lua

@@ -76,8 +76,9 @@ end
 function FistedDKP_DB_Encounter:BuildHash(data)
     return {
         encounter = {
+            zone = data.zone,
             name = data.name,
-            shortname = data.shortname
+            enocunterid = data.encounterid
         }
     }
 end

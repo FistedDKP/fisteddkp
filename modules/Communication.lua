@@ -147,17 +147,23 @@ local commsProto = {
         },
     },
     Bid = {
-        SendBid = {
+        StartBid = {
             Prefix = 'A001'
         },
-        ReceiveBid = {
+        EndBid = {
             Prefix = 'A002'
         },
-        CancelBid = {
+        SendBid = {
             Prefix = 'A011'
         },
-        ReceiveCancel = {
+        ReceiveBid = {
             Prefix = 'A012'
+        },
+        CancelBid = {
+            Prefix = 'A021'
+        },
+        ReceiveCancel = {
+            Prefix = 'A022'
         },
         BroadcastBid = {
             Prefix = 'A0FF'

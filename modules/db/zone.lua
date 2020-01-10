@@ -16,14 +16,12 @@ function FistedDKP_DB_Zone:Set(data)
         FistedDKP_Data.zones[index].index = index
         FistedDKP_Data.zones[index].id = data.id
         FistedDKP_Data.zones[index].name = data.name
-        FistedDKP_Data.zones[index].shortname = data.shortname
     else
         FistedDKP_Debug:Message("Zone Set: Creating")
         FistedDKP_Data.zones[index] = {
             index = index,
             id = data.id,
             name = data.name,
-            shortname = data.shortname,
             encounters = {}
         }
     end
@@ -39,8 +37,7 @@ function FistedDKP_DB_Zone:VerifyCreate(index)
         self:Set({
             index = index,
             id = nil,
-            name = "",
-            shortname = ""
+            name = ""
         })
         return self:Verify(index)
     else
@@ -71,8 +68,7 @@ function FistedDKP_DB_Zone:BuildHash(data)
     return {
         zone = {
             id = data.id,
-            name = data.name,
-            shortname = data.shortname
+            name = data.name
         }
     }
 end

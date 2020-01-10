@@ -24,7 +24,7 @@ function FistedDKP_DB:Init()
     }
 end
 
-function FistedDKP_DB:QueryIndexCache(index)
+function FistedDKP_DB:GetIndexCache(index)
     if FistedDKP_Cache.indexCache[index] then
         return FistedDKP_Cache.indexCache[index]
     end
