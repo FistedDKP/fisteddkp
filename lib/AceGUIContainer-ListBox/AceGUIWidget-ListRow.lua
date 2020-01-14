@@ -32,16 +32,7 @@ end
 Methods
 -------------------------------------------------------------------------------]]
 local methods = {
-	["OnAcquire"] = function(self)
-		-- set the flag to stop constant size updates
-		self.resizing = true
-		-- height is set dynamically by the text and image size
-        self:SetWidth(200)
-        self:SetHeight(10)
-
-		-- reset the flag
-        self.resizing = nil
-        
+    ["OnAcquire"] = function(self)
 		self:SetHighlight()
 		self:SetHighlightTexCoord()
 		self:SetDisabled(false)
@@ -92,11 +83,15 @@ local methods = {
     end,
 
     ["Redraw"] = function(self)
-        for k,v in iparis(self.children) do
-            v:Hide()
-            v:SetParent(nil)
+        for k,v in ipairs(self.children) do
+            v.frame:Hide()
+            v.frame:SetParent(nil)
+            self.children[k] = nil
         end
-        for k,v in ipairs(self.columns) do
+
+        local columns = self.columns
+        for k,v in ipairs(columns) do
+            print(v)
             self:AddChild(v)
         end
     end
@@ -106,15 +101,13 @@ local methods = {
 Constructor
 -------------------------------------------------------------------------------]]
 local function Constructor()
-	local frame = CreateFrame("Frame", nil, UIParent)
-    --frame:Hide()
-	frame:EnableMouse(true)
+    local frame = CreateFrame("Frame", nil, UIParent)
+    local content = frame
+    
+    frame:EnableMouse(true)
 	frame:SetScript("OnEnter", Control_OnEnter)
 	frame:SetScript("OnLeave", Control_OnLeave)
 	frame:SetScript("OnMouseDown", Label_OnClick)
-
-    
-    local content = frame
 
 	local highlight = frame:CreateTexture(nil, "HIGHLIGHT")
 	highlight:SetTexture(nil)

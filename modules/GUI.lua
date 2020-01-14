@@ -71,21 +71,32 @@ end
 function FistedDKP_GUI:Main()
     local frame = AceGUI:Create("SimpleGroup")
 
+    local row = AceGUI:Create("InlineGroup")
+    row:SetLayout("Flow")
+    row:SetFullWidth("fill")
+
 
     local cola = AceGUI:Create("Label")
-    cola:SetText("Test")
+    cola:SetText("Test 1")
+    cola:SetWidth("50")
     local colb = AceGUI:Create("Label")
-    colb:SetText("Test")
+    colb:SetText("Test 2")
+    colb:SetWidth("50")
     local colc = AceGUI:Create("Label")
-    colc:SetText("Test")
+    colc:SetText("Test 3")
 
-    local ilabel = AceGUI:Create("ListRow")
-    ilabel:SetHighlight(193,66,66,1.0)
-    ilabel:SetFullWidth(true)
-    ilabel:AddColumn(cola)
+    row:AddChild(cola)
+    row:AddChild(colb)
+
+    --local ilabel = AceGUI:Create("ListRow")
+    --ilabel:SetLayout("Flow")
+    --ilabel:SetWidth(600)
+    --ilabel:SetHighlight(193,66,66,1.0)
+    --ilabel:AddColumn(cola)
     --ilabel:AddColumn(colb)
 
-    frame:AddChild(ilabel)
+    --frame:AddChild(ilabel)
+    frame:AddChild(row)
     frame:AddChild(colc)
 
     return frame
